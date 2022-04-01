@@ -20,12 +20,12 @@ func getDate(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0, se
     return dateComponents.date
 }
 
-func dayFromDate1WithDate2(date1: Date, date2: Date) -> Int {
-    let components = Calendar.current.dateComponents([.day], from: date1, to: date2)
-    return components.day ?? -1
+func dayFromDate1WithDate2(date1: Date, date2: Date) -> (day: Int, hour:Int) {
+    let components = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
+    return (components.day ?? -1, components.hour ?? -1)
 }
 
-func dayFromNowWithDate(date: Date) -> Int {
+func dayFromNowWithDate(date: Date) -> (day: Int, hour:Int) {
     return dayFromDate1WithDate2(date1: Date.now, date2: date)
 }
 
@@ -60,7 +60,7 @@ let year = currentMonth == 12 ? currentYear + 1 : currentYear
 let day = 1
 let data1 = getDate(year: currentYear, month: currentMonth, day: day)
 let data2 = getDate(year: year, month: month, day: day)
-totalDaysThisMonth = dayFromDate1WithDate2(date1: data1!, date2: data2!)
+totalDaysThisMonth = dayFromDate1WithDate2(date1: data1!, date2: data2!).day
 
 func getTodayToDay(day: Int) -> Int {
     if let today = comps.day {
@@ -93,7 +93,7 @@ let twenty = getTodayToDay(day: 20)
 
 let nowDate = Date.now
 // 清明 Qingming Festival
-let qingming_Festival = getDate(year: 2022, month: 4, day: 5)
+let qingming_Festival = getDate(year: 2022, month: 4, day: 3)
 let qingming_Festival_components_day = dayFromNowWithDate(date: qingming_Festival!)
 
 // 五一劳动节 Labor Day
@@ -130,19 +130,19 @@ print("""
  【摸鱼办】提醒您:
  今天是\(todayString)，\(weekDayString)，你好，摸鱼人!工作再忙，一定不要忘记摸鱼哦!有事没事起身去茶水间，去厕所，去走廊走走，去找同事聊聊八卦别老在工位上坐着，钱是老板的但命是自己的。
  温馨提示：
- 2022年 已经过去 \(days) 天
+ 2022年 已经过去 \(days.day) 天\(days.hour)小时
  距离【月底发工资】：\(monthEnd)天
  距离【05号发工资】：\(five)天
  距离【10号发工资】：\(ten)天
  距离【15号发工资】：\(fifteen)天
  距离【20号发工资】：\(twenty)天
  距离【周六】还有\(toSat)天
- 距离【清明】还有:\(qingming_Festival_components_day)天。清明节：4月3日至5日放假调休，共3天。4月2日（星期六）上班。
- 距离【五一】还有:\(labor_Day_components_day)天。劳动节：4月30日至5月4日放假调休，共5天。4月24日（星期日）、5月7日（星期六）上班。
- 距离【端午】还有:\(dragon_Boat_Festival_Date_day)天。端午节：6月3日至5日放假，共3天。
- 距离【中秋】还有:\(mid_Moon_Festival_Date_day)天。中秋节：9月10日至12日放假，共3天。
- 距离【国庆】还有:\(national_Date_day)天。国庆节：10月1日至7日放假调休，共7天。
- 距离【元旦】还有:\(newYearDate_day)天。
- 距离【春节】还有:\(Spring_Festival_Date_day)天
+ 距离【清明】还有\(qingming_Festival_components_day.day)天\(qingming_Festival_components_day.hour)小时。清明节：4月3日至5日放假调休，共3天。4月2日（星期六）上班。
+ 距离【五一】还有\(labor_Day_components_day.day)天\(labor_Day_components_day.hour)小时。劳动节：4月30日至5月4日放假调休，共5天。4月24日（星期日）、5月7日（星期六）上班。
+ 距离【端午】还有\(dragon_Boat_Festival_Date_day.day)天\(dragon_Boat_Festival_Date_day.hour)小时。端午节：6月3日至5日放假，共3天。
+ 距离【中秋】还有\(mid_Moon_Festival_Date_day.day)天\(mid_Moon_Festival_Date_day.hour)小时。中秋节：9月10日至12日放假，共3天。
+ 距离【国庆】还有\(national_Date_day.day)天\(national_Date_day.hour)小时。国庆节：10月1日至7日放假调休，共7天。
+ 距离【元旦】还有\(newYearDate_day.day)天\(newYearDate_day.hour)小时。
+ 距离【春节】还有\(Spring_Festival_Date_day.day)天\(Spring_Festival_Date_day.hour)小时。
 """)
 
