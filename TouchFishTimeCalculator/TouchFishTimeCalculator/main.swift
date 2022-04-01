@@ -7,8 +7,11 @@
 
 import Foundation
 
+private let timeZoneString = "Asia/Shanghai"
+private let timeZoneString2 = "Asia/Dubai"
+
 func getDate(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) -> Date? {
-    let dateComponents = DateComponents(
+    var dateComponents = DateComponents(
         calendar: Calendar(identifier: .gregorian),
         year: year,
         month: month,
@@ -17,16 +20,22 @@ func getDate(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0, se
         minute: minute,
         second: second
     )
+    let timeZone = TimeZone(identifier: timeZoneString) ?? TimeZone.current
+    dateComponents.timeZone = timeZone
     return dateComponents.date
 }
 
 func dayFromDate1WithDate2(date1: Date, date2: Date) -> (day: Int, hour:Int) {
-    let components = Calendar.current.dateComponents([.day, .hour], from: date1, to: date2)
+    var calendar = Calendar.current
+//    let timeZone = TimeZone(identifier: timeZoneString) ?? TimeZone.current
+//    calendar.timeZone = timeZone
+    let components = calendar.dateComponents([.day, .hour], from: date1, to: date2)
     return (components.day ?? -1, components.hour ?? -1)
 }
 
 func dayFromNowWithDate(date: Date) -> (day: Int, hour:Int) {
-    return dayFromDate1WithDate2(date1: Date.now, date2: date)
+    let date1 = Date.now
+    return dayFromDate1WithDate2(date1: date1, date2: date)
 }
 
 let formatter = DateFormatter()
@@ -128,7 +137,7 @@ let days = dayFromDate1WithDate2(date1: thisNewYearDate!, date2: nowDate)
 
 print("""
  【摸鱼办】提醒您:
- 今天是\(todayString)，\(weekDayString)，你好，摸鱼人!工作再忙，一定不要忘记摸鱼哦!有事没事起身去茶水间，去厕所，去走廊走走，去找同事聊聊八卦别老在工位上坐着，钱是老板的但命是自己的。
+ 今天是\(todayString)，\(weekDayString)，（时区\(timeZoneString)）你好，摸鱼人!工作再忙，一定不要忘记摸鱼哦!有事没事起身去茶水间，去厕所，去走廊走走，去找同事聊聊八卦别老在工位上坐着，钱是老板的但命是自己的。
  温馨提示：
  2022年 已经过去 \(days.day) 天\(days.hour)小时
  距离【月底发工资】：\(monthEnd)天
